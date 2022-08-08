@@ -12,10 +12,13 @@ Devices
 
 It was made for any device that has the following dependencies
 
+Linux
+===============
 openjdk-11
 make
 cmake
 clang-11
+libncurses-dev
 
 
 Known bugs:
