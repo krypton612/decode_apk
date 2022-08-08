@@ -1,9 +1,9 @@
 #include "include/MenuBar.h"
 #include "include/itemAPK.h"
+#include <algorithm>
 #include <cstdlib>
 #include <curses.h>
 #include <string>
-#include <algorithm>
 
 MenuBar::MenuBar(WINDOW *win, Menu *menus,
                  int num_menus) // constructor de la clase menubar recibe la
@@ -106,12 +106,12 @@ void MenuBar::drawMenu(Menu menu, bool is_selected) {
           // getbegyx(outputwin, y, x);
           // mvwprintw(outputwin, 1, 2, "mierda");
           // wrefresh(outputwin);
-          //std::string input;
-          //int yMax, xMax, yBeg, xBeg;
-          //move(yBeg + 1, xBeg + 1);
+          // std::string input;
+          // int yMax, xMax, yBeg, xBeg;
+          // move(yBeg + 1, xBeg + 1);
           // let the terminal do the line editing
-          //nocbreak();
-          //echo();
+          // nocbreak();
+          // echo();
 
           // this reads from buffer after <ENTER>, not "raw"
           // // so any backspacing etc. has already been taken care of
@@ -129,10 +129,13 @@ void MenuBar::drawMenu(Menu menu, bool is_selected) {
           std::string cadena_de_apk = item_extrac_save(".apk");
           command = command + cadena_de_apk;
           std::string name_dir_file = getDir(cadena_de_apk);
-          command = command + " -o jar_dir/"+name_dir_file + ".jar > /dev/null 2>&1";
+          command = command + " -o jar_dir/" + name_dir_file +
+                    ".jar > /dev/null 2>&1";
           std::system(command.c_str());
-          
-          std::string message = "Ah sido generado un nuevo jar en la ruta jar_dir/"+name_dir_file+".jar";
+
+          std::string message =
+              "Ah sido generado un nuevo jar en la ruta jar_dir/" +
+              name_dir_file + ".jar";
 
           mvwprintw(outputwin, 3, 10, message.c_str());
           wrefresh(outputwin);
@@ -145,11 +148,15 @@ void MenuBar::drawMenu(Menu menu, bool is_selected) {
           std::string cadena_de_jar = item_extrac_save(".jar");
 
           std::string name_dir_file = getDir(cadena_de_jar);
-          
-          command = command + cadena_de_jar + " -od output/"+name_dir_file+" > /dev/null 2>&1" ;
+
+          command = command + cadena_de_jar + " -od output/" + name_dir_file +
+                    " > /dev/null 2>&1";
 
           std::system(command.c_str());
-          std::string message = "Ah sido generado un nuevo directorio en la ruta output/"+name_dir_file;
+          std::string message =
+              "Ah sido generado un nuevo directorio en la ruta output/" +
+              name_dir_file;
+          mvwprintw(outputwin, 3, 10, message.c_str());
           wrefresh(outputwin);
         }
       }
@@ -206,7 +213,7 @@ void MenuBar::handlerTrigger(
 }
 std::string MenuBar::getDir(std::string data_cadena) {
   std::string chars = ":/._";
-  // for (int i = 0; i < data.length(); i++) 
+  // for (int i = 0; i < data.length(); i++)
   // {
   //   if (data[i] == '/' || data[i] == ':')
   //   {
@@ -220,13 +227,14 @@ std::string MenuBar::getDir(std::string data_cadena) {
   // std::string command = "mkdir ";
   // std::string execute_comand = command + data;
   // std::system(execute_comand.c_str());
-  // 
+  //
   //
 
-    for (char c: chars) {
+  for (char c : chars) {
 
-        data_cadena.erase(std::remove(data_cadena.begin(), data_cadena.end(), c), data_cadena.end());
-    }
-    
+    data_cadena.erase(std::remove(data_cadena.begin(), data_cadena.end(), c),
+                      data_cadena.end());
+  }
+
   return data_cadena;
 }
